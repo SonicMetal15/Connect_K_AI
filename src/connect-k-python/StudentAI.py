@@ -38,12 +38,15 @@ class StudentAI():
         self.board = self.board.make_move(my_move, self.player_number)
         return my_move
 
-    def iterative_deepening(self, depth: int, board: Board, turn: int) -> Move:
+    def iterative_deepening(self, board: Board) -> Move:
         children = self.expand_node(self.board, 0)
         random_state = choice(children)
         return random_state.move
 
-    def alpha_beta_minmax(self, depth: int, board: Board, turn: int, alpha: int, beta: int) -> Move:
+    def alpha_beta_negamax(self, board: Board, limit: int, ply: int) -> Move:
+        return True
+
+    def max_value(self, board: Board, alpha: int, beta: int) -> (Move, int):
         return True
 
     def expand_node(self, board: Board, turn: int) -> List:
@@ -70,7 +73,6 @@ class StudentAI():
                         result_board = result_board.make_move(valid_move, self.opponent_number)
                     children.append(BoardWithAnalysis(result_board, valid_move, 0))
         return children
-
 
     def goal_test(self, board: Board) -> int:
         return board.is_win()
