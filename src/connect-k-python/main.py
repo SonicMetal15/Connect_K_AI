@@ -14,10 +14,10 @@ if __name__ == "__main__":
     # debug = False
     # if len(sys.argv) == 7 and sys.argv[6] == "-d":
     #     debug = True
-    col = 4
-    row = 4
+    col = 7
+    row = 7
     k = 4
-    g = 0
+    g = 1
     mode = "m"
     debug = False
 
