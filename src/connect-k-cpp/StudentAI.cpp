@@ -9,7 +9,7 @@ StudentAI::StudentAI(int col,int row,int k,int g)
 	
 }
 
-Move StudentAI::GetMove(Move board)
+Move StudentAI::GetMove(Move move)
 {
 	if (this->g == 0)
 		return Move(rand() % (col - 1), rand() % (row - 1));

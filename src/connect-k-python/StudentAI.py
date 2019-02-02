@@ -17,7 +17,6 @@ class StudentAI():
         self.board = Board(col,row,k,g)
 
     def get_move(self,move):
-        self.board.make_move(move,1)
         if self.g == 0:
             return Move(randint(0,self.col-1),randint(0,self.row-1))
         else:
