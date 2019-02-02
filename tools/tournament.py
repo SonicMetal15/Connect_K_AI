@@ -21,6 +21,7 @@ def game_main_loop(col,row,k,g,ai_1,ai_2,debug=False):
     board = Board(col,row,k,g)
     AI_com_list = [Communicator(ai_1,1000),Communicator(ai_2,1000)]
     player = 1
+    win_flag = 0
     try:
         AI_com_list[player-1].send("-1 -1".encode())
     except BrokenPipeError:
@@ -67,4 +68,7 @@ def game_main_loop(col,row,k,g,ai_1,ai_2,debug=False):
             player = player_switch(player)
             break
 
-    return win_flag
+    if win_flag != 0:
+        return win_flag
+    else:
+        return player
