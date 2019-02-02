@@ -22,4 +22,6 @@ Fixed the issues that C++ and Java coder cannot access private methods in Board 
 **01/30/2019:** <br>
 Added Java Makefile.<br>
 **02/01/2019:** <br>
-AI_runner bug fixed.
+Fixed an AI_runner bug.<br>
+**02/02/2019:** <br>
+Fixed AI_runner bugs.
