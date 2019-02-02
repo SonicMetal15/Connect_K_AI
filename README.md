@@ -16,6 +16,10 @@ Fixed an issue caused C++ shell cannot compile<br>
 Fixed an issue caused tie cannot be triggered.<br>
 PoorAI v2 uploaded.<br>
 **01/22/2019:** <br>
-Updated the submission script
+Updated the submission script<br>
 **01/23/2019:** <br>
-Fixed the issues that C++ and Java coder cannot access private methods in Board class.
+Fixed the issues that C++ and Java coder cannot access private methods in Board class.<br>
+**01/30/2019:** <br>
+Added Java Makefile.<br>
+**02/01/2019:** <br>
+AI_runner bug fixed.

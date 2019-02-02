@@ -54,7 +54,8 @@ def game_main_loop(col,row,k,g,ai_1,ai_2,debug=False):
             break
         if (debug):
             board.show_board()
-        if (board.is_win()):
+        win_flag = board.is_win()
+        if (win_flag != 0):
             break
 
         player = player_switch(player)
@@ -66,4 +67,4 @@ def game_main_loop(col,row,k,g,ai_1,ai_2,debug=False):
             player = player_switch(player)
             break
 
-    return player
+    return win_flag
