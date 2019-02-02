@@ -42,22 +42,28 @@ class StudentAI():
 
     def greedy_search(self) -> Move:
         children = self.expand_node(self.board, 0)
-        best_state = BoardWithAnalysis(self.board, Move(-1, -1), -math.inf)
+        best_state = None
         for state in children:
             if state.heuristic > best_state.heuristic:
                 best_state = state
         return best_state.move
 
     def iterative_deepening(self) -> Move:
-        for i in range(0, math.ing):
+        for i in range(0, math.inf):
             my_move = self.alpha_beta_negamax(i)
         return my_move
 
     def alpha_beta_negamax(self, limit: int) -> Move:
+        alpha = -math.inf
+        beta = math.inf
+        my_move = None
+        children = self.expand_node(self.board, 0)
+        for child in children:
+
         return True
 
-    def max_value(self, board: Board, alpha: int, beta: int) -> (Move, int):
-        return True
+    # def max_value(self, board: Board, alpha: int, beta: int) -> (Move, int):
+    #     return True
 
     def evaluate_board(self, board: Board, player_evaluated: int) -> int:
         score = 0
