@@ -36,11 +36,11 @@ class StudentAI():
         else:
             self.board = self.board.make_move(move, self.opponent_number)
         # my_move = self.iterative_deepening(self.board)
-        my_move = self.greedy_search(self.board)
+        my_move = self.greedy_search()
         self.board = self.board.make_move(my_move, self.player_number)
         return my_move
 
-    def greedy_search(self, board: Board) -> Move:
+    def greedy_search(self) -> Move:
         children = self.expand_node(self.board, 0)
         best_state = BoardWithAnalysis(self.board, Move(-1, -1), -math.inf)
         for state in children:
@@ -48,12 +48,12 @@ class StudentAI():
                 best_state = state
         return best_state.move
 
-    def iterative_deepening(self, board: Board) -> Move:
-        children = self.expand_node(self.board, 0)
-        random_state = choice(children)
-        return random_state.move
+    def iterative_deepening(self) -> Move:
+        for i in range(0, math.ing):
+            my_move = self.alpha_beta_negamax(i)
+        return my_move
 
-    def alpha_beta_negamax(self, board: Board, limit: int, ply: int) -> Move:
+    def alpha_beta_negamax(self, limit: int) -> Move:
         return True
 
     def max_value(self, board: Board, alpha: int, beta: int) -> (Move, int):
@@ -140,7 +140,3 @@ class StudentAI():
                         heuristic = self.evaluate_board(result_board, self.opponent_number)
                     children.append(BoardWithAnalysis(result_board, valid_move, heuristic))
         return children
-
-    @staticmethod
-    def goal_test(self, board: Board) -> int:
-        return board.is_win()
