@@ -82,7 +82,7 @@ class StudentAI():
         return best_state
 
     def alpha_beta_negamax(self, board: Board, depth: int, max_depth: int, alpha: int, beta: int, start_time: int) -> MoveWithAnalysis:
-        if time.time() - start_time > 120:
+        if time.time() - start_time > 180:
             print("Depth: {}".format(depth))
             return None
         if board.is_win() or depth > max_depth:
@@ -114,7 +114,7 @@ class StudentAI():
                     return None
                 current_move.col = valid_move.col
                 current_move.row = valid_move.row
-                current_move.heuristic = -current_move.heuristic
+                current_move.heuristic = current_move.heuristic
                 valid_move.heuristic = current_move.heuristic
                 if best_move is None or current_move.heuristic > best_move.heuristic:
                     best_move = current_move
