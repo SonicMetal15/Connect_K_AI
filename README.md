@@ -25,3 +25,5 @@ Added Java Makefile.<br>
 Fixed an AI_runner bug.<br>
 **02/02/2019:** <br>
 Fixed AI_runner bugs.
+**02/04/2019:** <br>
+Fixed Random AI bugs.
