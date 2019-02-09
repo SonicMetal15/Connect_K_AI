@@ -30,7 +30,7 @@ def game_main_loop(col,row,k,g,ai_1,ai_2,debug=False):
 
     while True:
         try:
-            ai_move = AI_com_list[player-1].recv()
+            ai_move,std_error = AI_com_list[player-1].recv()
         except TimeoutError:
             player = player_switch(player)
             if (debug):
@@ -49,7 +49,9 @@ def game_main_loop(col,row,k,g,ai_1,ai_2,debug=False):
             break
         except Exception as msg:
             if (debug):
-                print("Unknown Error!")
+                print("Unknown Error with the stderr:")
+                print(std_error.decode())
+                print("Shell raised the following exception:")
                 print(msg)
             player = player_switch(player)
             break
