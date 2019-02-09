@@ -14,6 +14,12 @@ if __name__ == "__main__":
     debug = False
     if len(sys.argv) == 7 and sys.argv[6] == "-d":
         debug = True
+    # col = 5
+    # row = 5
+    # k = 4
+    # g = 1
+    # mode = "m"
+    # debug = False
 
     main = GameLogic(col,row,k,g,mode,debug)
     main.Run()
