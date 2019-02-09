@@ -5,7 +5,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 6:
         print("Invalid Parameters")
         sys.exit(-1)
-    
+
     col = int(sys.argv[1])
     row = int(sys.argv[2])
     k = int(sys.argv[3])
@@ -14,9 +14,9 @@ if __name__ == "__main__":
     debug = False
     if len(sys.argv) == 7 and sys.argv[6] == "-d":
         debug = True
-    # col = 7
-    # row = 7
-    # k = 5
+    # col = 5
+    # row = 5
+    # k = 4
     # g = 1
     # mode = "m"
     # debug = False

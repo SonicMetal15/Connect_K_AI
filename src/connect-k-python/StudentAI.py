@@ -50,7 +50,7 @@ class StudentAI():
         self.board = self.board.make_move(my_move, self.player_number)
         self.moves += 1
         end = time.time()
-        print("Time elapsed: {} seconds".format(end - start))
+        # print("Time elapsed: {} seconds".format(end - start))
         return my_move
 
     def greedy_search(self) -> Move:
@@ -67,23 +67,23 @@ class StudentAI():
     def iterative_deepening(self) -> MoveWithAnalysis:
         best_state = None
         start_time = time.time()
-        for i in range(0, (self.col * self.row) - self.moves):
-            state = self.alpha_beta_negamax(self.board, 0, i, -math.inf, math.inf, start_time)
-            if state is not None:
-                best_state = state
-                self.valid_moves.sort(reverse=True)
-            else:
-                break
-        # best_state = self.alpha_beta_negamax(self.board, 0, 15, -math.inf, math.inf, start_time)
-        # self.valid_moves.sort(reverse=True)
-        for valid_move in self.valid_moves:
-            print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
+        # for i in range(0, (self.col * self.row) - self.moves):
+        #     state = self.alpha_beta_negamax(self.board, 0, i, -math.inf, math.inf, start_time)
+        #     if state is not None:
+        #         best_state = state
+        #         self.valid_moves.sort(reverse=True)
+        #     else:
+        #         break
+        best_state = self.alpha_beta_negamax(self.board, 0, 1, -math.inf, math.inf, start_time)
+        self.valid_moves.sort(reverse=True)
+        # for valid_move in self.valid_moves:
+        #     print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
         self.valid_moves.clear()
         return best_state
 
     def alpha_beta_negamax(self, board: Board, depth: int, max_depth: int, alpha: int, beta: int, start_time: int) -> MoveWithAnalysis:
-        if time.time() - start_time > 180:
-            print("Depth: {}".format(depth))
+        if time.time() - start_time > 30:
+            # print("Depth: {}".format(depth))
             return None
         if board.is_win() or depth > max_depth:
             # print("Depth: {}".format(depth))
@@ -114,7 +114,7 @@ class StudentAI():
                     return None
                 current_move.col = valid_move.col
                 current_move.row = valid_move.row
-                current_move.heuristic = current_move.heuristic
+                current_move.heuristic = -current_move.heuristic
                 valid_move.heuristic = current_move.heuristic
                 if best_move is None or current_move.heuristic > best_move.heuristic:
                     best_move = current_move
