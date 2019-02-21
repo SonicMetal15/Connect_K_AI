@@ -4,6 +4,7 @@ from typing import List
 import copy
 import math
 import time
+from queue import PriorityQueue
 #The following part should be completed by students.
 #Students can modify anything except the class name and exisiting functions and varibles.
 
@@ -28,7 +29,8 @@ class StudentAI():
     moves = 0
     player_number = 2
     opponent_number = 1
-    valid_moves = []
+    valid_moves = PriorityQueue()
+    moves_generated = False
 
     def __init__(self,col,row,k,g):
         self.g = g
@@ -45,6 +47,7 @@ class StudentAI():
         else:
             self.board = self.board.make_move(move, self.opponent_number)
             self.moves += 1
+        self.moves_generated = False
         my_move = self.iterative_deepening()
         # my_move = self.greedy_search()
         self.board = self.board.make_move(my_move, self.player_number)
@@ -53,32 +56,36 @@ class StudentAI():
         # print("Time elapsed: {} seconds".format(end - start))
         return my_move
 
-    def greedy_search(self) -> Move:
-        children = self.expand_node(self.board)
-        best_state = None
-        for child in children:
-            result_board = copy.deepcopy(self.board)
-            result_board.make_move(child)
-            child.heuristic = self.evaluate_board(result_board, self.player_number)
-            if best_move is None or child.heuristic > best_move.heuristic:
-                best_move = child
-        return best_move
+    # def greedy_search(self) -> Move:
+    #     children = self.expand_node(self.board)
+    #     best_state = None
+    #     for child in children:
+    #         result_board = copy.deepcopy(self.board)
+    #         result_board.make_move(child)
+    #         child.heuristic = self.evaluate_board(result_board, self.player_number)
+    #         if best_move is None or child.heuristic > best_move.heuristic:
+    #             best_move = child
+    #     return best_move
 
     def iterative_deepening(self) -> MoveWithAnalysis:
         best_state = None
         start_time = time.time()
-        # for i in range(0, (self.col * self.row) - self.moves):
-        #     state = self.alpha_beta_negamax(self.board, 0, i, -math.inf, math.inf, start_time)
-        #     if state is not None:
-        #         best_state = state
-        #         self.valid_moves.sort(reverse=True)
-        #     else:
-        #         break
-        best_state = self.alpha_beta_negamax(self.board, 0, 1, -math.inf, math.inf, start_time)
-        self.valid_moves.sort(reverse=True)
-        # for valid_move in self.valid_moves:
+        for i in range(0, (self.col * self.row) - self.moves):
+            state = self.alpha_beta_negamax(self.board, 0, i, -math.inf, math.inf, start_time)
+            # print(i)
+            if state is not None:
+                best_state = state
+                # print("Best Move:({}, {}): {}".format(best_state.col, best_state.row, best_state.heuristic))
+                # for valid_move in self.valid_moves.queue:
+                #     print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
+                # self.valid_moves.sort(reverse=True)
+            else:
+                break
+        # best_state = self.alpha_beta_negamax(self.board, 0, 1, -math.inf, math.inf, start_time)
+        # self.valid_moves.sort(reverse=True)
+        # for valid_move in self.valid_moves.queue:
         #     print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
-        self.valid_moves.clear()
+        self.valid_moves.queue.clear()
         return best_state
 
     def alpha_beta_negamax(self, board: Board, depth: int, max_depth: int, alpha: int, beta: int, start_time: int) -> MoveWithAnalysis:
@@ -96,17 +103,20 @@ class StudentAI():
                 current_move = MoveWithAnalysis(None, None, -heuristic)
                 return current_move
         best_move = None
-        if not self.valid_moves:
+        if self.valid_moves.empty() and not self.moves_generated:
             children = self.expand_node(board)
             for child in children:
                 result_board = copy.deepcopy(board)
                 result_board = result_board.make_move(child, self.player_number)
                 current_move = MoveWithAnalysis(child.col, child.row, 0)
                 current_move.heuristic = self.evaluate_board(result_board, self.player_number)
-                self.valid_moves.append(current_move)
-            self.valid_moves.sort(reverse=True)
+                self.valid_moves.put(current_move)
+            self.moves_generated = True
+            # self.valid_moves.sort(reverse=True)
         if depth == 0:
-            for valid_move in self.valid_moves:
+            temp_queue = PriorityQueue()
+            while not self.valid_moves.empty():
+                valid_move = self.valid_moves.get()
                 result_board = copy.deepcopy(board)
                 result_board = result_board.make_move(valid_move, self.player_number)
                 current_move = self.alpha_beta_negamax(result_board, depth + 1, max_depth, -beta, -alpha, start_time)
@@ -116,6 +126,8 @@ class StudentAI():
                 current_move.row = valid_move.row
                 current_move.heuristic = -current_move.heuristic
                 valid_move.heuristic = current_move.heuristic
+                temp_queue.put(valid_move)
+                # print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
                 if best_move is None or current_move.heuristic > best_move.heuristic:
                     best_move = current_move
                 if current_move.heuristic > alpha:
@@ -123,6 +135,7 @@ class StudentAI():
                 if alpha >= beta:
                     # print("PRUNED")
                     return best_move
+            self.valid_moves = temp_queue
         else:
             children = self.expand_node(board)
             for child in children:
