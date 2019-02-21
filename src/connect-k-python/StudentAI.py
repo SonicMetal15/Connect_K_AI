@@ -194,6 +194,7 @@ class StudentAI():
                     tie = False
                     continue
                 first_player = board.board[i][j]
+                row_number = self.col - j
                 for step in steps:
                     is_win = True
                     temp_row = i
@@ -217,17 +218,18 @@ class StudentAI():
                         else:
                             temp_score += (pieces * 2)
                     if player_evaluated == first_player:
-                        score += (temp_score + 1)
+                        score += temp_score
                     else:
-                        score -= (temp_score + 1)
-                    if j % 2 != 0 and player_evaluated == first_player and first_player == 1:
-                        temp_score += 10
-                    elif j % 2 != 0 and player_evaluated != first_player and first_player == 1:
-                        temp_score -= 10
-                    elif j % 2 == 0 and player_evaluated == first_player and first_player == 2:
-                        temp_score += 10
-                    elif j % 2 == 0 and player_evaluated != first_player and first_player == 2:
-                        temp_score -= 10
+                        score -= temp_score
+                    if temp_score != 0:
+                        if row_number % 2 != 0 and player_evaluated == first_player and first_player == 1:
+                            temp_score += 10
+                        elif row_number % 2 != 0 and player_evaluated != first_player and first_player == 1:
+                            temp_score -= 10
+                        elif row_number % 2 == 0 and player_evaluated == first_player and first_player == 2:
+                            temp_score += 10
+                        elif row_number % 2 == 0 and player_evaluated != first_player and first_player == 2:
+                            temp_score -= 10
                     if is_win:
                         if first_player == self.player_number:
                             # print("Evaluated Score: {}".format(math.inf))
