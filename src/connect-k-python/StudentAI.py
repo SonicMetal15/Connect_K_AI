@@ -75,9 +75,9 @@ class StudentAI():
             # print(i)
             if state is not None:
                 best_state = state
-                # print("Best Move:({}, {}): {}".format(best_state.col, best_state.row, best_state.heuristic))
-                # for valid_move in self.valid_moves.queue:
-                #     print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
+                print("Best Move:({}, {}): {}".format(best_state.col, best_state.row, best_state.heuristic))
+                for valid_move in self.valid_moves.queue:
+                    print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
                 # self.valid_moves.sort(reverse=True)
             else:
                 break
@@ -89,7 +89,7 @@ class StudentAI():
         return best_state
 
     def alpha_beta_negamax(self, board: Board, depth: int, max_depth: int, alpha: int, beta: int, start_time: int) -> MoveWithAnalysis:
-        if time.time() - start_time > 30:
+        if time.time() - start_time > 10:
             # print("Depth: {}".format(depth))
             return None
         if board.is_win() or depth > max_depth:
@@ -220,6 +220,14 @@ class StudentAI():
                         score += (temp_score + 1)
                     else:
                         score -= (temp_score + 1)
+                    if j % 2 != 0 and player_evaluated == first_player and first_player == 1:
+                        temp_score += 10
+                    elif j % 2 != 0 and player_evaluated != first_player and first_player == 1:
+                        temp_score -= 10
+                    elif j % 2 == 0 and player_evaluated == first_player and first_player == 2:
+                        temp_score += 10
+                    elif j % 2 == 0 and player_evaluated != first_player and first_player == 2:
+                        temp_score -= 10
                     if is_win:
                         if first_player == self.player_number:
                             # print("Evaluated Score: {}".format(math.inf))
@@ -230,9 +238,9 @@ class StudentAI():
                             # board.show_board()
                             return -math.inf
         if tie:
-            # print("Evaluated Score: {}".format(1000))
+            # print("Evaluated Score: {}".format(20))
             # board.show_board()
-            return 1000
+            return 20
         # print("Evaluated Score: {}".format(score))
         # board.show_board()
         return score
