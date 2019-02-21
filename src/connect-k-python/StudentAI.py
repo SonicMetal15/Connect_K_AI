@@ -75,9 +75,9 @@ class StudentAI():
             # print(i)
             if state is not None:
                 best_state = state
-                print("Best Move:({}, {}): {}".format(best_state.col, best_state.row, best_state.heuristic))
-                for valid_move in self.valid_moves.queue:
-                    print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
+                # print("Best Move:({}, {}): {}".format(best_state.col, best_state.row, best_state.heuristic))
+                # for valid_move in self.valid_moves.queue:
+                #     print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
                 # self.valid_moves.sort(reverse=True)
             else:
                 break
