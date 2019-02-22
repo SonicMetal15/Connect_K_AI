@@ -72,9 +72,9 @@ class StudentAI():
         start_time = time.time()
         for i in range(0, (self.col * self.row) - self.moves):
             state = self.alpha_beta_negamax(self.board, 0, i, -math.inf, math.inf, start_time)
-            # print(i)
             if state is not None:
                 best_state = state
+                # print(i)
                 # print("Best Move:({}, {}): {}".format(best_state.col, best_state.row, best_state.heuristic))
                 # for valid_move in self.valid_moves.queue:
                 #     print("({}, {}): {}".format(valid_move.col, valid_move.row, valid_move.heuristic))
@@ -89,7 +89,7 @@ class StudentAI():
         return best_state
 
     def alpha_beta_negamax(self, board: Board, depth: int, max_depth: int, alpha: int, beta: int, start_time: int) -> MoveWithAnalysis:
-        if time.time() - start_time > 10:
+        if time.time() - start_time > 2.5:
             # print("Depth: {}".format(depth))
             return None
         if board.is_win() or depth > max_depth:
@@ -216,20 +216,20 @@ class StudentAI():
                             is_win = False
                             temp_score += 1
                         else:
-                            temp_score += (pieces * 2)
+                            temp_score += pieces
                     if player_evaluated == first_player:
                         score += temp_score
                     else:
                         score -= temp_score
                     if temp_score != 0:
                         if row_number % 2 != 0 and player_evaluated == first_player and first_player == 1:
-                            temp_score += 10
+                            temp_score += 25
                         elif row_number % 2 != 0 and player_evaluated != first_player and first_player == 1:
-                            temp_score -= 10
+                            temp_score -= 25
                         elif row_number % 2 == 0 and player_evaluated == first_player and first_player == 2:
-                            temp_score += 10
+                            temp_score += 25
                         elif row_number % 2 == 0 and player_evaluated != first_player and first_player == 2:
-                            temp_score -= 10
+                            temp_score -= 25
                     if is_win:
                         if first_player == self.player_number:
                             # print("Evaluated Score: {}".format(math.inf))
@@ -240,9 +240,9 @@ class StudentAI():
                             # board.show_board()
                             return -math.inf
         if tie:
-            # print("Evaluated Score: {}".format(20))
+            # print("Evaluated Score: {}".format(50))
             # board.show_board()
-            return 20
+            return 50
         # print("Evaluated Score: {}".format(score))
         # board.show_board()
         return score
