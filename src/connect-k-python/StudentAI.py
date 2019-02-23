@@ -89,7 +89,7 @@ class StudentAI():
         return best_state
 
     def alpha_beta_negamax(self, board: Board, depth: int, max_depth: int, alpha: int, beta: int, start_time: int) -> MoveWithAnalysis:
-        if time.time() - start_time > 2.5:
+        if time.time() - start_time > 30:
             # print("Depth: {}".format(depth))
             return None
         if board.is_win() or depth > max_depth:
@@ -216,20 +216,20 @@ class StudentAI():
                             is_win = False
                             temp_score += 1
                         else:
-                            temp_score += pieces
+                            temp_score += pieces * 5
                     if player_evaluated == first_player:
                         score += temp_score
                     else:
                         score -= temp_score
                     if temp_score != 0:
                         if row_number % 2 != 0 and player_evaluated == first_player and first_player == 1:
-                            temp_score += 25
+                            temp_score += 40
                         elif row_number % 2 != 0 and player_evaluated != first_player and first_player == 1:
-                            temp_score -= 25
+                            temp_score -= 20
                         elif row_number % 2 == 0 and player_evaluated == first_player and first_player == 2:
-                            temp_score += 25
+                            temp_score += 40
                         elif row_number % 2 == 0 and player_evaluated != first_player and first_player == 2:
-                            temp_score -= 25
+                            temp_score -= 20
                     if is_win:
                         if first_player == self.player_number:
                             # print("Evaluated Score: {}".format(math.inf))
