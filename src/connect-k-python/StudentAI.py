@@ -227,7 +227,6 @@ class StudentAI():
                         score += temp_score
                     else:
                         score -= temp_score
-<<<<<<< HEAD
                     if temp_score != 0 and self.g == 1:
                         if row_number % 2 != 0 and player_evaluated == first_player and first_player == 1:
                             temp_score += 40
@@ -237,7 +236,6 @@ class StudentAI():
                             temp_score += 40
                         elif row_number % 2 == 0 and player_evaluated != first_player and first_player == 2:
                             temp_score -= 20
-=======
                     # if temp_score != 0:
                     #     if row_number % 2 != 0 and player_evaluated == first_player and first_player == 1:
                     #         temp_score += 40
@@ -247,7 +245,6 @@ class StudentAI():
                     #         temp_score += 40
                     #     elif row_number % 2 == 0 and player_evaluated != first_player and first_player == 2:
                     #         temp_score -= 20
->>>>>>> 70d8671b8174756910c73dddf30b29bf07db6637
                     if is_win:
                         if first_player == self.player_number:
                             # print("Evaluated Score: {}".format(math.inf))
