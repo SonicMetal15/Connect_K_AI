@@ -221,15 +221,15 @@ class StudentAI():
                         score += temp_score
                     else:
                         score -= temp_score
-                    if temp_score != 0:
+                    if temp_score != 0 and self.g == 1:
                         if row_number % 2 != 0 and player_evaluated == first_player and first_player == 1:
-                            temp_score += 25
+                            temp_score += 40
                         elif row_number % 2 != 0 and player_evaluated != first_player and first_player == 1:
-                            temp_score -= 25
+                            temp_score -= 20
                         elif row_number % 2 == 0 and player_evaluated == first_player and first_player == 2:
-                            temp_score += 25
+                            temp_score += 40
                         elif row_number % 2 == 0 and player_evaluated != first_player and first_player == 2:
-                            temp_score -= 25
+                            temp_score -= 20
                     if is_win:
                         if first_player == self.player_number:
                             # print("Evaluated Score: {}".format(math.inf))
