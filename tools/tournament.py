@@ -13,15 +13,16 @@ player = 1 if player == 2 else 2
 If board.is_win() returns a non-zero flag, the main loop will be broken immediately, and the current player will win.
 Therefore, in general, if the while loop is broken by raised exception, "player_switch" will be called.
 '''
-
+TIME_OUT = 7200
 def player_switch(player):
     return 1 if player == 2 else 2
 
 def game_main_loop(col,row,k,g,ai_1,ai_2,debug=False):
     board = Board(col,row,k,g)
-    AI_com_list = [Communicator(ai_1,1000),Communicator(ai_2,1000)]
+    AI_com_list = [Communicator(ai_1,TIME_OUT),Communicator(ai_2,TIME_OUT)]
     player = 1
     win_flag = 0
+    already_time = [0.0,0.0]
     try:
         AI_com_list[player-1].send("-1 -1".encode())
     except BrokenPipeError:
@@ -30,12 +31,14 @@ def game_main_loop(col,row,k,g,ai_1,ai_2,debug=False):
 
     while True:
         try:
-            ai_move,std_error = AI_com_list[player-1].recv()
+            ai_move,std_error,at = AI_com_list[player-1].recv()
         except TimeoutError:
             player = player_switch(player)
             if (debug):
                 print("Time Out!")
+            player = player_switch(player)
             break
+        already_time[player-1] += at
         ai_move = ai_move.decode().split("\n")[-1].rstrip()
         if (debug):
             print("Player",player,"says:",ai_move)
