@@ -7,18 +7,18 @@ import time
 from queue import PriorityQueue
 #The following part should be completed by students.
 #Students can modify anything except the class name and exisiting functions and varibles.
-TIME_LIMIT = 30
 
 class MoveWithAnalysis(Move):
     def __init__(self, col: int, row: int, heuristic: int) -> None:
         self.heuristic = heuristic
+        self.priority = -heuristic
         super().__init__(col, row)
 
     def __eq__(self, other):
-        return self.heuristic == other.heuristic
+        return self.priority == other.priority
 
     def __lt__(self, other):
-        return self.heuristic < other.heuristic
+        return self.priority > other.priority
 
 
 class StudentAI():
@@ -31,6 +31,8 @@ class StudentAI():
     opponent_number = 1
     valid_moves = PriorityQueue()
     moves_generated = False
+    time_limit = 50 #60 85
+    b_factor = 5
 
     def __init__(self,col,row,k,g):
         self.g = g
@@ -38,12 +40,30 @@ class StudentAI():
         self.row = row
         self.k = k
         self.board = Board(col,row,k,g)
+        if self.g == 1:
+            self.b_factor = self.col
+        else:
+            self.b_factor = self.col * self.row
+        if self.b_factor <= 5:
+            self.time_limit = 90 #60 85
+        elif self.b_factor > 5 and self.g == 1:
+            self.time_limit = 100 #90 100
+        elif self.b_factor >= 35:
+            self.time_limit = 170 #170 180
 
     def get_move(self,move):
         start = time.time()
         if move.col == -1 and move.row == -1:
             self.player_number = 1
             self.opponent_number = 2
+            if self.b_factor <= 5:
+                self.time_limit = 80 #80 100 130 150
+            elif  self.b_factor > 5 and self.b_factor <= 10:
+                self.time_limit = 30 #30 50 70
+            elif self.b_factor >= 25 and self.b_factor < 35:
+                self.time_limit = 40 #20 30 50 70
+            else:
+                self.time_limit = 180 #175 180 190
         else:
             self.board = self.board.make_move(move, self.opponent_number)
             self.moves += 1
@@ -89,7 +109,7 @@ class StudentAI():
         return best_state
 
     def alpha_beta_negamax(self, board: Board, depth: int, max_depth: int, alpha: int, beta: int, start_time: int) -> MoveWithAnalysis:
-        if time.time() - start_time > TIME_LIMIT:
+        if time.time() - start_time > self.time_limit:
             # print("Depth: {}".format(depth))
             return None
         if board.is_win() or depth > max_depth:
@@ -215,28 +235,19 @@ class StudentAI():
                             break
                         elif board.board[temp_row][temp_col] == 0:
                             is_win = False
-                            temp_score += 1
+                            temp_score += 3
+                            if self.g == 1 and pieces > 1:
+                                if temp_row_number % 2 != 0 and first_player == 1:
+                                    temp_score += 50
+                                elif temp_row_number % 2 == 0 and first_player == 2:
+                                    temp_score += 50
                         else:
                             temp_score += pieces * 5
-                        if self.g == 1:
-                            if temp_row_number % 2 != 0 and first_player == 1:
-                                temp_score += 40
-                            elif temp_row_number % 2 == 0 and first_player == 2:
-                                temp_score += 40
                     if player_evaluated == first_player:
                         score += temp_score
                     else:
                         score -= temp_score
-                    if temp_score != 0 and self.g == 1:
-                        if row_number % 2 != 0 and player_evaluated == first_player and first_player == 1:
-                            temp_score += 40
-                        elif row_number % 2 != 0 and player_evaluated != first_player and first_player == 1:
-                            temp_score -= 20
-                        elif row_number % 2 == 0 and player_evaluated == first_player and first_player == 2:
-                            temp_score += 40
-                        elif row_number % 2 == 0 and player_evaluated != first_player and first_player == 2:
-                            temp_score -= 20
-                    # if temp_score != 0:
+                    # if temp_score != 0 and self.g == 1:
                     #     if row_number % 2 != 0 and player_evaluated == first_player and first_player == 1:
                     #         temp_score += 40
                     #     elif row_number % 2 != 0 and player_evaluated != first_player and first_player == 1:
@@ -257,7 +268,7 @@ class StudentAI():
         if tie:
             # print("Evaluated Score: {}".format(50))
             # board.show_board()
-            return 50
+            return 1000
         # print("Evaluated Score: {}".format(score))
         # board.show_board()
         return score
