@@ -28,4 +28,10 @@ Fixed AI_runner bugs.<br>
 **02/04/2019:** <br>
 Fixed Random AI bugs. <br>
 **02/05/2019:** <br>
-Update AI Runner. AI Runner now can display details of unknown error.
+Update AI Runner. AI Runner now can display details of unknown error. <br>
+**02/25/2019:** <br>
+Update Average AI.
+**02/26/2019:** <br>
+Update Average AI v2.<br>
+Update Good AI.<br>
+Update Super AI.<br>

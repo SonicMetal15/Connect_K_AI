@@ -15,13 +15,13 @@ class Communicator(object):
         self.process.stdin.flush()
         time.sleep(0.01)
 
-    def recv(self,t=0.2):
+    def recv(self,t=0.2,time_already=0):
         r = ''
         pr = self.process.stdout
         per = self.process.stderr
         bt = time.time()
         er = b''
-        while (time.time() - bt < self.timeout):
+        while ((time.time() - bt)+time_already < self.timeout):
             if not select.select([pr], [], [], 0)[0]:
                 time.sleep(t)
                 continue
@@ -29,5 +29,5 @@ class Communicator(object):
             r = pr.read().rstrip()
             if r.decode() == ' ' or r.decode() == '':
                 er = per.read()
-            return r,er
+            return r,er,time.time() - bt
         raise TimeoutError
